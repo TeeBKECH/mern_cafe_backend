@@ -14,7 +14,6 @@ export default (req, res, next) => {
     }
 
     const data = validateToken(accessToken, 'access')
-    console.log(data)
     if (!data) {
       return next(ApiError.UnauthorizedError())
     }

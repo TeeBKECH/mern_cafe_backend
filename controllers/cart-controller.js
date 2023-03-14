@@ -2,9 +2,9 @@ import * as cartService from '../services/cart-service.js'
 
 export const updateCart = async (req, res, next) => {
   try {
-    const { data } = req.body
+    const { cart } = req.body
     const { id } = req.params
-    const cartData = await cartService.updateCart(id, data)
+    const cartData = await cartService.updateCart(id, cart)
     return res.json(cartData)
   } catch (error) {
     next(error)

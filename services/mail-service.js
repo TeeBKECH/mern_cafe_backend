@@ -15,7 +15,7 @@ let transporter = nodemailer.createTransport({
 
 export const sendActivationMail = async (to, link) => {
   await transporter.sendMail({
-    from: `Restaurant Seasons <${process.env.SMTP_USER}>`,
+    from: `CentrCofee <${process.env.SMTP_USER}>`,
     to,
     subject: `Подтверждение почты для сайта ${process.env.CLIENT_URL}`,
     text: '',

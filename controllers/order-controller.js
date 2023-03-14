@@ -2,9 +2,9 @@ import * as orderService from '../services/order-service.js'
 
 export const createOrder = async (req, res, next) => {
   try {
-    const { cart } = req.body
+    const { order } = req.body
     const { id } = req.user
-    const orderData = await orderService.createOrder(cart, id)
+    const orderData = await orderService.createOrder(order, id)
     return res.json(orderData)
   } catch (error) {
     next(error)

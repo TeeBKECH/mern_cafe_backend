@@ -11,7 +11,7 @@ import * as roleService from './role-service.js'
 import { UserDto } from '../dtos/user-dto.js'
 import { ApiError } from '../utils/api-error.js'
 
-export const registration = async (email, password, cartData) => {
+export const registration = async (email, password) => {
   const candidate = await UserModel.findOne({ email })
   if (candidate) {
     throw ApiError.BadRequestError(`Пользователь с адресом ${email} уже существует`)
@@ -34,14 +34,14 @@ export const registration = async (email, password, cartData) => {
 
   await roleService.updateRoles(roles, user._id)
 
-  const cart = await cartService.generateCart(user._id, cartData)
+  const cart = await cartService.generateCart(user._id)
 
   user.cart = cart._id
   await user.save()
 
   const userDto = new UserDto(user)
   const { password: pass, ...userData } = user._doc
-  await sendActivationMail(email, `${process.env.API_URL}/auth/activate/${activationLink}`)
+  await sendActivationMail(email, `${process.env.API_URL}/api/v1/auth/activate/${activationLink}`)
 
   const tokens = await tokenService.generateTokens({ ...userDto })
   await tokenService.saveTokens(userDto.id, tokens.refreshToken)
@@ -96,7 +96,7 @@ export const refresh = async (refreshToken) => {
   }
 
   const data = tokenService.validateToken(refreshToken, 'refresh')
-  console.log(data)
+
   const tokenDb = await tokenService.findToken(refreshToken)
   if (!data || !tokenDb) {
     throw ApiError.UnauthorizedError()

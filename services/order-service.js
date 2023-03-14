@@ -1,13 +1,12 @@
 import OrderModel from '../models/order-model.js'
+import * as telegramService from './telegram-service.js'
 
-export const createOrder = async (cart, userId) => {
-  const order = await OrderModel.create({
-    totalPrice: cart.totalPrice,
-    user: userId,
-    products: cart.products,
-  })
+export const createOrder = async (order, userId) => {
+  const orderData = await OrderModel.create(order)
 
-  return order
+  const status = await telegramService.sendMessage(orderData._id)
+
+  return status
 }
 
 export const deleteOrder = async (orderId) => {

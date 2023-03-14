@@ -10,13 +10,13 @@ const router = new Router()
 router.post(
   '/registration',
   body('email').isEmail(),
-  body('password').isLength({ min: 3, max: 24 }),
+  body('password').isLength({ min: 5, max: 24 }),
   authController.registration,
 )
 router.post(
   '/login',
   body('email').isEmail(),
-  body('password').isLength({ min: 3, max: 24 }),
+  body('password').isLength({ min: 5, max: 24 }),
   authController.login,
 )
 router.post('/logout', authController.logout)

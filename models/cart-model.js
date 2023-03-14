@@ -16,13 +16,14 @@ const CartSchema = new mongoose.Schema(
     },
     products: [
       {
-        item: {
+        id: {
           type: mongoose.Schema.Types.ObjectId,
           ref: 'Product',
         },
         count: {
           type: Number,
         },
+        _id: false,
       },
     ],
   },

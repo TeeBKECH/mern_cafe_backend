@@ -63,8 +63,8 @@ router.get('/order', authMiddleware, orderController.getOrders)
 // ============================================================
 // API для Получения, добавления, обновления и удаления заказов
 router.delete('/cart/:id', roleMiddleware(['SUPER_ADMIN']), cartController.deleteCart)
-router.patch('/cart/:id', cartController.updateCart)
-router.get('/cart/:id', cartController.getCart)
+router.patch('/cart/:id', authMiddleware, cartController.updateCart)
+router.get('/cart/:id', authMiddleware, cartController.getCart)
 router.get('/cart', roleMiddleware(['SUPER_ADMIN', 'ADMIN', 'MANAGER']), cartController.getCarts)
 
 // ============================================================
