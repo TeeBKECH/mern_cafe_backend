@@ -121,7 +121,9 @@ export const getAllUsers = () => {
 
 export const getMe = async (id) => {
   const user = await UserModel.findById(id)
-
+  if (!user) {
+    throw ApiError.NotFoundError('Пользователь не найден')
+  }
   const { password, ...userData } = user._doc
   return userData
 }

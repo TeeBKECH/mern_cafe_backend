@@ -4,6 +4,8 @@ import mongoose from 'mongoose'
 import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
 import path from 'path'
+import https from 'https'
+import * as fs from 'fs'
 import { fileURLToPath } from 'url'
 
 import errorMiddleware from './middleware/error-middleware.js'
@@ -14,10 +16,16 @@ import userRouter from './router/user-router.js'
 
 dotenv.config()
 
+const options = {
+  cert: fs.readFileSync('./sslcert/supershaurma.ru.crt'),
+  key: fs.readFileSync('./sslcert/supershaurma.ru.key'),
+}
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 const PORT = process.env.PORT || 5000
+const PORT_SSL = process.env.PORT_SSL || 5443
 
 const app = express()
 
@@ -50,3 +58,5 @@ const startApp = () => {
 }
 
 startApp()
+
+https.createServer(options, app).listen(PORT_SSL)

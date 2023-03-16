@@ -12,8 +12,12 @@ const ProductSchema = new mongoose.Schema(
       required: true,
     },
     shortDescription: String,
-
+    popular: {
+      type: Boolean,
+      default: false,
+    },
     image: String,
+    image_sm: String,
     price: {
       type: Number,
       required: true,
@@ -25,13 +29,6 @@ const ProductSchema = new mongoose.Schema(
     deliveryAvailable: {
       type: Boolean,
       default: false,
-    },
-    popular: {
-      type: Boolean,
-      default: false,
-    },
-    popularImg: {
-      type: String,
     },
     info: {
       sku: {
