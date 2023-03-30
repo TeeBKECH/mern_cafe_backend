@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 import ProductModel from '../models/product-model.js'
 
 import * as categoryService from './category-service.js'
+import { ApiError } from '../utils/api-error.js'
 
 export const createProduct = async (data, id) => {
   let { categories } = data
@@ -44,17 +45,24 @@ export const deleteProduct = async (id) => {
 
 export const getProduct = async (id) => {
   const objId = mongoose.Types.ObjectId(id)
-  console.log(objId)
   const product = await ProductModel.findOne({ _id: objId })
     .populate('tags')
     .populate('categories')
     .exec()
 
+  if (!product) {
+    throw ApiError.NotFoundError(`Продукт не найден`)
+  }
+
   return product
 }
 
 export const getProducts = async () => {
-  const product = await ProductModel.find().populate('tags').populate('categories').exec()
+  const products = await ProductModel.find().populate('tags').populate('categories').exec()
 
-  return product
+  if (products.length === 0) {
+    throw ApiError.NotFoundError(`Продукты не найдены`)
+  }
+
+  return products
 }

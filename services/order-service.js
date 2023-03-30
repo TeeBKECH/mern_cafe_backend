@@ -21,7 +21,7 @@ export const updateOrder = async (status, orderId) => {
   return order
 }
 
-export const getOrder = async (orderId) => {
+export const getOrder = async (orderId, user) => {
   const order = await OrderModel.findById(orderId).populate('products').exec()
 
   return order
